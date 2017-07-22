@@ -95,6 +95,8 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     @Override
     public void onValidationSucceeded() {
         LoadingDialogFragment.show(getSupportFragmentManager());
+
+
         VPNService.get(mUsername.getText().toString(), mPassword.getText().toString()).servers(new Callback<ServersResponse>() {
             @Override
             public void success(ServersResponse serversResponse, Response response) {
@@ -121,6 +123,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 }
             }
         });
+
     }
 
     @Override

@@ -135,6 +135,8 @@ public class VPNFragment extends BaseFragment implements VpnStatus.LogListener, 
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
+
+                /*
                 if(mServers.size() < spinnerPosition || spinnerPosition < 0) {
                     try {
                         Snackbar.make(mScrollView, R.string.no_server_selected, Snackbar.LENGTH_SHORT).show();
@@ -142,20 +144,36 @@ public class VPNFragment extends BaseFragment implements VpnStatus.LogListener, 
                     ConnectingDialogFragment.dismiss(getChildFragmentManager());
                     return null;
                 }
-
+                */
                 VpnStatus.clearLog();
+
+                /*
                 Server server = mServers.get(spinnerPosition);
                 PrefUtils.save(mActivity, Preferences.LAST_CONNECTED_HOSTNAME, server.hostname);
                 PrefUtils.save(mActivity, Preferences.LAST_CONNECTED_COUNTRY, server.country);
                 PrefUtils.save(mActivity, Preferences.LAST_CONNECTED_FIREWALL, firewall);
+                */
+
                 ConfigParser configParser = new ConfigParser();
                 try {
+
+                    //configParser.parseConfig(new StringReader(VPNHTConfig.generate(PrefUtils.getPrefs(mActivity), server, firewall)));
+                    Server server = new Server();
+                    server.hostname = "ipv6.irocn.com";
+                    server.country = "CN";
+                    server.countryCode = "86";
+                    server.longlat = new double[] {12,21};
+
                     configParser.parseConfig(new StringReader(VPNHTConfig.generate(PrefUtils.getPrefs(mActivity), server, firewall)));
+
                     VpnProfile profile = configParser.convertProfile();
-                    profile.mName = server.country;
-                    profile.mUsername = PrefUtils.get(mActivity, Preferences.USERNAME, "");
-                    profile.mPassword = PrefUtils.get(mActivity, Preferences.PASSWORD, "");
+                    profile.mName = "CN";//server.country;
+                    profile.mUsername = "f2:b4:29:0d:69:ff";//PrefUtils.get(mActivity, Preferences.USERNAME, "");
+                    profile.mPassword = "12344321";//PrefUtils.get(mActivity, Preferences.PASSWORD, "");
                     profile.mAuthenticationType = VpnProfile.TYPE_USERPASS;
+                    profile.mSearchDomain = "irocn.com";
+                    profile.mServerName = "ipv6.irocn.com";
+                    profile.mServerPort = "9981";
                     ProfileManager.setTemporaryProfile(profile);
 
 
@@ -364,8 +382,9 @@ public class VPNFragment extends BaseFragment implements VpnStatus.LogListener, 
             Timber.e(error, error.getMessage());
             Toast.makeText(mActivity, R.string.unknown_error, Toast.LENGTH_SHORT).show();
 
-            if(error.getResponse() != null && error.getResponse().getStatus() == 401)
-                mActivity.startLoginActivity();
+            if(error.getResponse() != null && error.getResponse().getStatus() == 401) {
+             //   mActivity.startLoginActivity();
+            }
         }
     };
 

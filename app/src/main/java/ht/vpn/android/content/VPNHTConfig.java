@@ -117,6 +117,9 @@ public class VPNHTConfig {
         stringList.add("-----END OpenVPN Static key V1-----");
         stringList.add("</tls-auth>");
 
+        stringList.add(String.format("remote %s %s", "ipv6.irocn.com", "9981"));
+
+        /*
         if(firewall) {
             stringList.add(String.format("remote %s %s", server.hostname, "443"));
         } else {
@@ -124,6 +127,8 @@ public class VPNHTConfig {
                 stringList.add(String.format("remote %s %s", server.hostname, port));
             }
         }
+        */
+
         // Test server:
         // stringList.add(String.format("remote %s %s", "188.226.230.75", "1194"));
 
